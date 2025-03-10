@@ -1,0 +1,33 @@
+# Ambiente Virtual (não versionar o ambiente virtual)
+venv/
+# Diretórios criados por IDEs
+.vscode/
+.idea/
+
+# Arquivos de configuração do sistema operacional
+.DS_Store        # Para macOS
+Thumbs.db        # Para Windows
+
+# Arquivos de configuração de Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Arquivos de logs
+*.log
+
+# Arquivos de dependências do Python (gerados pelo pip)
+Pipfile.lock
+*.egg-info/
+
+# Arquivos de configuração de Docker
+docker-compose.override.yml
+
+# Arquivos temporários do sistema
+*.swp
+*.swo
+
+# Arquivos do MySQL (se você tiver um banco de dados local ou backups)
+*.sql
