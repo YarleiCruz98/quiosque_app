@@ -1,0 +1,203 @@
+:root {
+  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  font-weight: 500;
+  color: #646cff;
+  text-decoration: inherit;
+}
+a:hover {
+  color: #535bf2;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 320px;
+  min-height: 100vh;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+  margin-bottom: 20px;
+}
+
+button {
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+}
+button:hover {
+  border-color: #646cff;
+}
+button:focus,
+button:focus-visible {
+  outline: 4px auto -webkit-focus-ring-color;
+}
+
+/* Estilos para o formulário */
+.form-container {
+  width: 100%;
+  max-width: 500px;
+  margin-bottom: 40px;
+  padding: 20px;
+  background-color: #333;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-container h2 {
+  margin-top: 0;
+  font-size: 1.8em;
+  color: #646cff;
+}
+
+.form-container label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.form-container input,
+.form-container textarea {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 16px;
+  border: 1px solid #555;
+  border-radius: 4px;
+  background-color: #1a1a1a;
+  color: rgba(255, 255, 255, 0.87);
+  font-size: 1em;
+}
+
+.form-container input:focus,
+.form-container textarea:focus {
+  border-color: #646cff;
+  outline: none;
+}
+
+.form-container button {
+  width: 100%;
+  background-color: #646cff;
+  color: white;
+  border: none;
+}
+
+.form-container button:hover {
+  background-color: #535bf2;
+}
+
+/* Estilos para a tabela */
+.table-container {
+  width: 100%;
+  max-width: 800px;
+  overflow-x: auto;
+  background-color: #333;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+table th,
+table td {
+  padding: 12px;
+  text-align: left;
+  border-bottom: 1px solid #555;
+}
+
+table th {
+  background-color: #1a1a1a;
+  font-weight: 500;
+}
+
+table tr:hover {
+  background-color: #444;
+}
+
+table td {
+  background-color: #333;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .form-container,
+  .table-container {
+    width: 100%;
+    padding: 15px;
+  }
+
+  h1 {
+    font-size: 2.5em;
+  }
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color: #213547;
+    background-color: #ffffff;
+  }
+  a:hover {
+    color: #747bff;
+  }
+  button {
+    background-color: #f9f9f9;
+    color: #213547;
+  }
+  .form-container,
+  .table-container {
+    background-color: #f9f9f9;
+    color: #213547;
+  }
+  .form-container label,
+  .form-container input,
+  .form-container textarea,
+  table th,
+  table td {
+    color: #213547;
+  }
+  .form-container input,
+  .form-container textarea {
+    background-color: #fff;
+    border-color: #ddd;
+  }
+  table th {
+    background-color: #e0e0e0;
+  }
+  table tr:hover {
+    background-color: #f1f1f1;
+  }
+  table td {
+    background-color: #f9f9f9;
+  }
+}

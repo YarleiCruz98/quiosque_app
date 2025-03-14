@@ -17,3 +17,33 @@ class Product(db.Model):
             'stock': self.stock,
             'description': self.description
         }
+class ProdutoNaoEncontrado(Exception):
+     pass
+
+def listar_produtos():
+    products = Product.query.all()
+    return [p.to_dict() for p in products]
+
+def produto_por_id(id_product):
+    product = Product.query.get(id_product)
+    if not product:
+        raise ProdutoNaoEncontrado
+    return product.to_dict()
+
+def atualizar_produto(id_product, novos_dados):
+    produto = Product.query.get(id_product)
+    if not produto:
+        raise ProdutoNaoEncontrado
+    produto.name = novos_dados.get('name')
+    produto.price = novos_dados.get('price')
+    produto.stock = novos_dados.get('stock')
+    produto.description = novos_dados.get('description')
+    db.session.commit()
+    return produto.to_dict()
+
+def deletar_produto_por_id(id_product):
+     produto = Product.query.get(id_product)
+     if not produto:
+         raise ProdutoNaoEncontrado
+     db.session.delete(produto)
+     db.session.commit()
