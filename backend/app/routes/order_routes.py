@@ -5,6 +5,7 @@ from app.config import db
 
 order_blueprint = Blueprint('order_bp', __name__)
 #Rotas para Comanda
+
 @order_blueprint.route('/comandas', methods=['POST'])
 def criar_comanda():
     data = request.get_json()
