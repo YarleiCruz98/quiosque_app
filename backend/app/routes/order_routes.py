@@ -33,6 +33,7 @@ def get_comandaPorId(id_order):
         return jsonify(comanda), 200
     except ComandaNaoEncontrada:
         return jsonify({"erro": 'Comanda nao encontrada'}), 404
+    
 
 @order_blueprint.route('/comandas/<int:comanda_id>/fechar', methods=['PUT'])
 def fechar_comanda(order_id):
