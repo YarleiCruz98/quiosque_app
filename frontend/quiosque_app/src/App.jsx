@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import './App.css'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
-import ProductTable from './PAGES/home/index' 
+import ProductTable from './PAGES/Listar/index' 
 import ProductForm from './PAGES/criar/productform'
 import ProductUpdateForm from './PAGES/update/updateform'
+import Home from './PAGES/Home/inicial'
 
 function App() {
   return (
@@ -15,6 +16,8 @@ function App() {
         <Route path="/products/criar" element={<ProductForm onProductAdded={() => {}} />}  />
         {/* Rota para atualizar um produto */}
         <Route path="products/:id/atualizar" element={<ProductUpdateForm onProductAdded={() => {}} />} />
+        {/* Rota para a página inicial */}
+        <Route path="/" element={<Home />} />
       </Routes>
     </Router>
   );

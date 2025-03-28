@@ -3,6 +3,11 @@ from app.models.product_models import Product, produto_por_id, ProdutoNaoEncontr
 from app.config import db
 
 product_blueprint = Blueprint('product_bp', __name__)
+
+@product_blueprint.route('/', methods=['GET'])
+def index():
+    return jsonify({'message': 'Bem-vindo Ao quiosque Areia Sereia!'}), 200
+
 @product_blueprint.route('/products/', methods=['POST'])
 def create_product():
     data = request.get_json()
