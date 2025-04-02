@@ -1,113 +1,83 @@
-/* Estilos para o contêiner do formulário */
-.product-form {
-    max-width: 500px;
-    margin: 0 auto;
-    padding: 20px;
-    background-color: #333;
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+.product-form-update {
+  max-width: 400px;
+  margin: 50px auto; /* Centraliza o formulário na tela */
+  padding: 20px;
+  background-color: #333;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centraliza os itens */
+}
+
+.product-form-update h2 {
+  margin-top: 0;
+  font-size: 1.8em;
+  color: #646cff;
+  text-align: center;
+}
+
+.product-form-update form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-form-update div {
+  width: 100%;
+  margin-bottom: 16px;
+}
+
+.product-form-update label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.87);
+}
+
+.product-form-update input,
+.product-form-update textarea {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #555;
+  border-radius: 6px;
+  background-color: #1a1a1a;
+  color: rgba(255, 255, 255, 0.87);
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+.product-form-update input:focus,
+.product-form-update textarea:focus {
+  border-color: #646cff;
+  outline: none;
+}
+
+.product-form-update textarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.product-form-update button {
+  width: 100%;
+  padding: 12px;
+  background-color: #646cff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1em;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background-color 0.25s;
+  margin-top: 10px;
+}
+
+.product-form-update button:hover {
+  background-color: #535bf2;
+}
+
+@media (max-width: 600px) {
+  .product-form-update {
+      width: 90%;
   }
-  
-  /* Estilos para o título do formulário */
-  .product-form h2 {
-    margin-top: 0;
-    font-size: 1.8em;
-    color: #646cff;
-    text-align: center;
-  }
-  
-  /* Estilos para os grupos de campos (label + input/textarea) */
-  .product-form div {
-    margin-bottom: 16px;
-  }
-  
-  /* Estilos para os labels */
-  .product-form label {
-    display: block;
-    margin-bottom: 8px;
-    font-weight: 500;
-    color: rgba(255, 255, 255, 0.87);
-  }
-  
-  /* Estilos para os inputs e textarea */
-  .product-form input,
-  .product-form textarea {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #555;
-    border-radius: 4px;
-    background-color: #1a1a1a;
-    color: rgba(255, 255, 255, 0.87);
-    font-size: 1em;
-  }
-  
-  /* Estilos para o foco nos inputs e textarea */
-  .product-form input:focus,
-  .product-form textarea:focus {
-    border-color: #646cff;
-    outline: none;
-  }
-  
-  /* Estilos para o textarea */
-  .product-form textarea {
-    resize: vertical; /* Permite redimensionar verticalmente */
-    min-height: 100px;
-  }
-  
-  /* Estilos para o botão de envio */
-  .product-form button {
-    width: 100%;
-    padding: 12px;
-    background-color: #646cff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    font-size: 1em;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.25s;
-  }
-  
-  /* Efeito hover no botão */
-  .product-form button:hover {
-    background-color: #535bf2;
-  }
-  
-  /* Responsividade */
-  @media (max-width: 600px) {
-    .product-form {
-      padding: 15px;
-    }
-  
-    .product-form h2 {
-      font-size: 1.5em;
-    }
-  }
-  
-  /* Modo Claro */
-  @media (prefers-color-scheme: light) {
-    .product-form {
-      background-color: #f9f9f9;
-      color: #213547;
-    }
-  
-    .product-form label {
-      color: #213547;
-    }
-  
-    .product-form input,
-    .product-form textarea {
-      background-color: #fff;
-      border-color: #ddd;
-      color: #213547;
-    }
-  
-    .product-form button {
-      background-color: #646cff;
-      color: white;
-    }
-  
-    .product-form button:hover {
-      background-color: #535bf2;
-    }
-  }
+}

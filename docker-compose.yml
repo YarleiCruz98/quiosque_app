@@ -1,36 +1,56 @@
 services:
-  db:
-    image: mysql:8.0.29
-    restart: unless-stopped
-    container_name: db
-    ports:
-      - "3307:3306"  # Remova o bind ao 127.0.0.1 para facilitar o acesso entre containers
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: quiosque_db
-    volumes:
-      - mysql_data:/var/lib/mysql
-    healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
-      interval: 10s
-      timeout: 5s
-      retries: 5
-
-  web:
-    build:
-      context: .
-      dockerfile: Dockerfile
+  backend:
+    build: ./backend
+    container_name: flask_backend
     ports:
       - "5000:5000"
-    volumes:
-      - .:/src
-    environment:
-      FLASK_APP: src/run.py
-      FLASK_ENV: development
-      DATABASE_URI: "mysql+mysqlconnector://root:root@db:3306/quiosque_db"
     depends_on:
       db:
         condition: service_healthy
+    environment:
+      - FLASK_APP=run.py
+      - FLASK_ENV=development
+      - DATABASE_URL=mysql+pymysql://root:projetinhos2025@db:3306/quiosque_db
+    volumes:
+      - ./backend:/app
+    networks:
+      - quiosque_network
+
+  frontend:
+    build:
+      context: ./frontend/quiosque_app
+    container_name: react_frontend
+    ports:
+      - "5173:5173"
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+    volumes:
+      - ./frontend/quiosque_app:/app
+      - /app/node_modules
+    command: ["npm", "run", "dev"]
+    networks:
+      - quiosque_network
+  db:
+    image: mysql:8.0
+    container_name: mysql_db
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: projetinhos2025
+      MYSQL_DATABASE: quiosque_db
+    ports:
+      - "3308:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"] 
+      interval: 10s
+      retries: 3
+    networks:
+      - quiosque_network
 
 volumes:
   mysql_data:
+
+networks:
+  quiosque_network:
+    driver: bridge

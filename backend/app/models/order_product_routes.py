@@ -1,16 +1,16 @@
 from app.config import db
 
 class ComandaProduto(db.Model):
-    __tablename__ = 'comanda_produtos'    
+    __tablename__ = 'comanda_produtos'
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     comanda_id = db.Column(db.Integer, db.ForeignKey('comandas.id', ondelete='CASCADE'), nullable=False)
     produto_id = db.Column(db.Integer, db.ForeignKey('produtos.id', ondelete='CASCADE'), nullable=False)
     quantidade = db.Column(db.Integer, nullable=False, default=1)
-    descricao = db.Column(db.String(255), nullable=True)  # Campo opcional para descrição do produto
-    # Definindo o relacionamento para facilitar o acesso às informações de Comanda e Produto
-    preco = db.Column(db.Float, nullable=False)  # Preço do produto na comanda
-    comanda = db.relationship('Comanda', backref=db.backref('comanda_produtos', lazy=True))
-    produto = db.relationship('Produto', backref=db.backref('comanda_produtos', lazy=True))
+    preco = db.Column(db.Float, nullable=False)
+    descricao = db.Column(db.String(255), nullable=True)  # Descrição opcional do produto na comanda
+    # Relacionamentos
+    comanda = db.relationship('Comanda', back_populates='produtos')
+    produto = db.relationship('Produto', back_populates='comandas')
 
     def to_dict(self):
         return {

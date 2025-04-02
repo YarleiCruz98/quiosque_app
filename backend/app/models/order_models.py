@@ -18,7 +18,7 @@ class Comanda(db.Model):
 class ComandaNaoEncontrada(Exception):
     pass
 
-def criar_comanda(mesa, data_abertura):
+def criar_comandas(mesa, data_abertura):
     # Verifica se a mesa já está ocupada
     mesa_existente = Comanda.query.filter_by(mesa=mesa, status='aberta').first()
     if mesa_existente:

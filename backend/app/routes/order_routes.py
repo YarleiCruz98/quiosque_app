@@ -1,5 +1,5 @@
 from flask import request, jsonify, Blueprint
-from app.models.order_models import Comanda, Pedido, ComandaNaoEncontrada, comanda_por_id, listar_comanda
+from app.models.order_models import Comanda, ComandaNaoEncontrada, comanda_por_id, listar_comanda, criar_comandas
 from app.models.order_product_routes import ComandaProduto, ComandaProdutoNaoEncontrado, atualizar_pedido
 from app.models.product_models import produto_por_id, ProdutoNaoEncontrado, Product
 from app.config import db
@@ -17,7 +17,7 @@ def criar_comanda():
         return jsonify({'error' : 'Número da mesa é obrigatório'}), 400
     
     #Adiciona nova comanda no banco de dados
-    nova_comanda = Comanda.criar_comanda(mesa, data_abertura)
+    nova_comanda = criar_comandas(mesa, data_abertura)
     db.session.add(nova_comanda)
     db.session.commit()
 

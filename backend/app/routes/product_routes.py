@@ -81,6 +81,6 @@ def delete_product(id_product):
     try:
         produto = produto_por_id(id_product)
         deletar_produto_por_id(id_product)
-        return jsonify(produto), 200
+        return jsonify(f"produto deletado: id {id_product}"), 200
     except ProdutoNaoEncontrado:
         return jsonify({'message': 'Produto não encontrado'}), 404
