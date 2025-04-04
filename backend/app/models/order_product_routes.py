@@ -1,4 +1,5 @@
 from app.config import db
+from app.models.order_models import Comanda
 
 class ComandaProduto(db.Model):
     __tablename__ = 'comanda_produtos'
@@ -9,14 +10,19 @@ class ComandaProduto(db.Model):
     preco = db.Column(db.Float, nullable=False)
     descricao = db.Column(db.String(255), nullable=True)  # Descrição opcional do produto na comanda
     # Relacionamentos
-    comanda = db.relationship('Comanda', back_populates='produtos')
-    produto = db.relationship('Produto', back_populates='comandas')
+    comanda = db.relationship('Comanda', backref='comanda_produtos')
+    produto = db.relationship('Product', backref='comanda_produtos')
 
     def to_dict(self):
         return {
             'id': self.id,
-            'comanda': self.comanda,
-            'produto': self.produto,
+            'comanda_id': self.comanda_id,
+            'produto': {
+                'id': self.produto.id,
+                'name': self.produto.name,  # Correção aqui
+                'price': self.produto.price,
+                'description': self.produto.description,
+            },
             'quantidade': self.quantidade,
             'descricao': self.descricao,
             'preco': self.preco
@@ -58,3 +64,31 @@ def atualizar_pedido(id_comanda_produto, novos_dados):
     comanda_produto.preco = novos_dados.get('preco')
     db.session.commit()
     return comanda_produto.to_dict()
+
+def listar_produtos_da_comanda(comanda_id):
+    comanda = Comanda.query.get(comanda_id)
+    if not comanda:
+        return []
+
+    pedidos = []
+    for pedido in comanda.comanda_produtos:
+        pedidos.append({
+            "pedido_id": pedido.id,
+            "produto_id": pedido.produto.id,
+            "nome_produto": pedido.produto.name,
+            "quantidade": pedido.quantidade,
+            "preco_unitario": pedido.preco,
+            "descricao": pedido.descricao
+        })
+    return pedidos
+
+def calcular_subtotal_comanda(comanda_id):
+    comanda = Comanda.query.get(comanda_id)
+    if not comanda:
+        return 0.0
+
+    subtotal = 0.0
+    for pedido in comanda.comanda_produtos:
+        subtotal += pedido.quantidade * pedido.preco
+
+    return round(subtotal, 2)
