@@ -1,0 +1,160 @@
+/* Estilo geral */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f4f7f6;
+    margin: 0;
+    padding: 0;
+    color: #2c3e50;
+}
+
+/* Título */
+h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin-top: 20px;
+    font-size: 24px;
+}
+
+/* Container principal */
+.container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 40px auto;
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Estilização da tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+/* Cabeçalho da tabela */
+thead th {
+    background-color: #2980b9;
+    color: #ffffff;
+    padding: 12px;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+}
+
+/* Corpo da tabela */
+tbody td {
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+    color: #34495e;
+}
+
+/* Linhas alternadas */
+tbody tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Linha ao passar o mouse */
+tbody tr {
+    cursor: pointer;
+    transition: background 0.3s ease-in-out;
+}
+
+tbody tr:hover {
+    background-color: #d5e8f7;
+    transform: scale(1.02);
+}
+
+/* Estilo especial para "Nenhum produto encontrado" */
+tbody td[colspan="3"] {
+    text-align: center;
+    font-style: italic;
+    color: #95a5a6;
+    padding: 20px;
+    background-color: #f1f1f1;
+}
+
+/* Estilo do botão de voltar */
+.back-button {
+    display: block;
+    width: fit-content;
+    margin: 20px auto;
+    padding: 10px 20px;
+    background-color: #e74c3c;
+    border: none;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.back-button:hover {
+    background-color: #c0392b;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    table th,
+    table td {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    thead th {
+        font-size: 14px;
+    }
+}
+
+/* Modo Escuro */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #242424;
+        color: rgba(255, 255, 255, 0.87);
+    }
+
+    .container {
+        background-color: #333;
+        color: rgba(255, 255, 255, 0.87);
+    }
+
+    thead th {
+        background-color: #1a73e8;
+    }
+
+    tbody td {
+        color: rgba(255, 255, 255, 0.87);
+        border-bottom: 1px solid #555;
+    }
+
+    tbody tr:nth-child(even) {
+        background-color: #444;
+    }
+
+    tbody tr:hover {
+        background-color: #555;
+    }
+
+    tbody td[colspan="3"] {
+        color: #95a5a6;
+        background-color: #444;
+    }
+
+    .back-button {
+        background-color: #d35400;
+    }
+
+    .back-button:hover {
+        background-color: #e67e22;
+    }
+}

@@ -7,7 +7,7 @@ from app.config import db
 order_blueprint = Blueprint('order_bp', __name__)
 #Rotas para Comanda
 
-@order_blueprint.route('/comandas', methods=['POST'])
+@order_blueprint.route('/comandas/criar', methods=['POST', 'GET'])
 def criar_comanda():
     try:
         data = request.get_json()
@@ -26,9 +26,9 @@ def criar_comanda():
 
 
 @order_blueprint.route('/comandas', methods=['GET'])
-def listar_comanda():
-    comanda = listar_comanda()
-    return jsonify(comanda), 200
+def listar_comanda_route():
+    comandas = listar_comanda()  # chama a função correta
+    return jsonify(comandas)
 
 @order_blueprint.route("/comandas/<int:id_order>", methods=["GET"])
 def get_comandaPorId(id_order):
