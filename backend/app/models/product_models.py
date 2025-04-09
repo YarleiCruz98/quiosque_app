@@ -2,7 +2,7 @@ from app.config import db
 
 class Product(db.Model):
 
-    __tablename__ = 'products'
+    __tablename__ = 'produtos'
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100))
     price = db.Column(db.Float)
@@ -28,7 +28,7 @@ def produto_por_id(id_product):
     product = Product.query.get(id_product)
     if not product:
         raise ProdutoNaoEncontrado
-    return product.to_dict()
+    return product
 
 def atualizar_produto(id_product, novos_dados):
     produto = Product.query.get(id_product)

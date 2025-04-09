@@ -3,6 +3,11 @@ from app.models.product_models import Product, produto_por_id, ProdutoNaoEncontr
 from app.config import db
 
 product_blueprint = Blueprint('product_bp', __name__)
+
+@product_blueprint.route('/', methods=['GET'])
+def index():
+    return jsonify({'message': 'Bem-vindo Ao quiosque Areia Sereia!'}), 200
+
 @product_blueprint.route('/products/', methods=['POST'])
 def create_product():
     data = request.get_json()
@@ -76,6 +81,6 @@ def delete_product(id_product):
     try:
         produto = produto_por_id(id_product)
         deletar_produto_por_id(id_product)
-        return jsonify(produto), 200
+        return jsonify(f"produto deletado: id {id_product}"), 200
     except ProdutoNaoEncontrado:
         return jsonify({'message': 'Produto não encontrado'}), 404

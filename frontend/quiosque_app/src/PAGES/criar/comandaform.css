@@ -1,0 +1,40 @@
+.comanda-form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+  }
+  
+  .comanda-form form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .comanda-form label {
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+  
+  .comanda-form input {
+    padding: 8px;
+    font-size: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .comanda-form button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    font-size: 1rem;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+  }
+  
+  .comanda-form .error {
+    color: red;
+    font-size: 0.9rem;
+  }
+  
