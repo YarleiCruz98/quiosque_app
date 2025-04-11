@@ -1,6 +1,6 @@
 from flask import request, jsonify, Blueprint
 from app.models.order_models import Comanda, ComandaNaoEncontrada, comanda_por_id, listar_comanda, criar_comandas
-from app.models.order_product_routes import ComandaProduto, ComandaProdutoNaoEncontrado, atualizar_pedido, listar_produtos_da_comanda, calcular_subtotal_comanda
+from app.models.order_product_routes import ComandaProduto, ComandaProdutoNaoEncontrado, atualizar_pedido, listar_produtos_da_comanda, calcular_subtotal_comanda, fechar_comanda, cancelar_comanda
 from app.models.product_models import produto_por_id, ProdutoNaoEncontrado, Product, listar_produtos
 from app.config import db
 
@@ -39,18 +39,46 @@ def get_comandaPorId(id_order):
         return jsonify({"erro": 'Comanda nao encontrada'}), 404
     
 
-@order_blueprint.route('/comandas/<int:comanda_id>/fechar', methods=['PUT'])
-def fechar_comanda(order_id):
-    comanda = Comanda.query.get_or_404(order_id)
-    
+@order_blueprint.route('/comandas/<int:comanda_id>/fechar', methods=['POST'])
+def fechar_comanda(comanda_id):
+    comanda = Comanda.query.get_or_404(comanda_id)
+    data = request.get_json()
+    print(comanda.status)
+    print(data)
+
+    if not data or 'status' not in data:
+        return jsonify({'error': 'Campo "status" é obrigatório'}), 400
+
+    if data['status'] != 'fechada':
+        return jsonify({'error': 'Valor inválido. O status deve ser "fechada"'}), 400
+
     if comanda.status == 'fechada':
         return jsonify({'error': 'Comanda já está fechada'}), 400
-    
+
     comanda.status = 'fechada'
     db.session.commit()
-    
-    return jsonify(comanda.to_dict()), 200    
-    
+    return jsonify(comanda.to_dict()), 200
+
+
+@order_blueprint.route('/comandas/<int:comanda_id>/cancelar', methods=['POST'])
+def cancelar_comanda(comanda_id):
+    comanda = Comanda.query.get_or_404(comanda_id)
+    data = request.get_json()
+
+    if not data or 'status' not in data:
+        return jsonify({'error': 'Campo "status" é obrigatório'}), 400
+
+    if data['status'] != 'cancelada':
+        return jsonify({'error': 'Valor inválido. O status deve ser "cancelada"'}), 400
+
+    if comanda.status == 'cancelada':
+        return jsonify({'error': 'Comanda já está cancelada'}), 400
+
+    comanda.status = 'cancelada'
+    db.session.commit()
+    return jsonify(comanda.to_dict()), 200
+
+
 @order_blueprint.route('/comandas/<int:comanda_id>/pedidos', methods=['POST']) 
 def adicionar_pedido(comanda_id):
     data = request.get_json()
@@ -133,13 +161,34 @@ def listar_pedidos(comanda_id):
     
     pedidos_formatados = listar_produtos_da_comanda(comanda_id)
     subtotal = calcular_subtotal_comanda(comanda_id)
-    resposta = {
+    if comanda.status == 'fechada':
+        resposta = {
         f"comanda-{comanda.id}": {
             "mesa": comanda.mesa,
             "pedidos": pedidos_formatados,
             "subtotal": subtotal,
             "status": comanda.status,
+            }
         }
-    }
+        return jsonify(resposta), 201
+    elif comanda.status == 'aberta':
+        resposta = {
+        f"comanda-{comanda.id}": {
+            "mesa": comanda.mesa,
+            "pedidos": pedidos_formatados,
+            "status": comanda.status,
+            }
+        }
+        return jsonify(resposta), 201
 
-    return jsonify(resposta), 201
+@order_blueprint.route('/comandas/<int:comanda_id>/pedidos/<int:pedido_id>', methods=['DELETE'])
+def deletar_pedido(comanda_id, pedido_id):
+    pedido = ComandaProduto.query.filter_by(comanda_id=comanda_id, id=pedido_id).first()
+    if not pedido:
+        return jsonify({'error': 'Pedido não encontrado'}), 404
+
+    db.session.delete(pedido)
+    db.session.commit()
+
+    return jsonify({'message': 'Pedido deletado com sucesso'}), 200
+

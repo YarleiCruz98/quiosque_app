@@ -6,7 +6,7 @@ from flask_cors import CORS
 
 app = create_app()
 
-CORS(app)
+CORS(app, origins=["http://localhost:5173"], supports_credentials=True)
 app.register_blueprint(product_blueprint)
 app.register_blueprint(order_blueprint)
 if __name__ == '__main__':

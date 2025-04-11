@@ -23,6 +23,7 @@ function UpdateProductForm() {
       try {
         const response = await api.get(`/products/${id}`);
         setFormData(response.data);
+        //console.log('Dados do produto:', response.data);
         setLoading(false);
       } catch (error) {
         console.error('Erro ao carregar o produto:', error);

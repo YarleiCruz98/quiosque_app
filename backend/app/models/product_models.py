@@ -28,7 +28,7 @@ def produto_por_id(id_product):
     product = Product.query.get(id_product)
     if not product:
         raise ProdutoNaoEncontrado
-    return product
+    return product.to_dict()
 
 def atualizar_produto(id_product, novos_dados):
     produto = Product.query.get(id_product)

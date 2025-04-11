@@ -1,5 +1,7 @@
 from app.config import db
 from app.models.order_models import Comanda
+from flask import jsonify
+
 
 class ComandaProduto(db.Model):
     __tablename__ = 'comanda_produtos'
@@ -92,3 +94,21 @@ def calcular_subtotal_comanda(comanda_id):
         subtotal += pedido.quantidade * pedido.preco
 
     return round(subtotal, 2)
+
+
+def fechar_comanda(id):
+    comanda = Comanda.query.get(id)
+    if not comanda:
+        raise ComandaProdutoNaoEncontrado
+    comanda.status = 'fechada'
+    db.session.commit()
+    return comanda.to_dict()
+
+def cancelar_comanda(id):
+    comanda = Comanda.query.get(id)
+    if not comanda:
+        raise ComandaProdutoNaoEncontrado
+    comanda.status = 'cancelada'
+    db.session.commit()
+    return comanda.to_dict()
+

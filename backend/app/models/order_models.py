@@ -5,7 +5,7 @@ class Comanda(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     mesa = db.Column(db.Integer, nullable=False)
     data_abertura = db.Column(db.DateTime, nullable=False)
-    status = db.Column(db.Enum('aberta', 'fechada', name='status_enum'), default='aberta', nullable=False)
+    status = db.Column(db.Enum('aberta', 'fechada', 'cancelada', name='status_enum'), default='aberta', nullable=False)
     
     def to_dict(self):
         return {

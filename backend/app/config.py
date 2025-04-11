@@ -6,8 +6,6 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
-    CORS(app)
-
     app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+mysqlconnector://root:projetinhos2025@db:3306/quiosque_db'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)
