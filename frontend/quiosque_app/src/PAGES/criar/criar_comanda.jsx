@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../../services/api';
 import './comandaform.css';
-
+import VoltarButton from '../../components/VoltarButton';
 function ComandaForm() {
+
   const [formData, setFormData] = useState({
     mesa: '',
     data_abertura: '',
@@ -64,6 +65,7 @@ function ComandaForm() {
   return (
     <div className="comanda-form">
       <h2>Abrir Nova Comanda</h2>
+      <VoltarButton />
       <form onSubmit={handleSubmit}>
         <div>
           <label>Mesa:</label>
@@ -95,6 +97,7 @@ function ComandaForm() {
       </form>
     </div>
   );
+  
 }
 
 export default ComandaForm;

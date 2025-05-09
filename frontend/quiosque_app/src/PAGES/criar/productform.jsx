@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import api from '../../services/api'; // Supondo que você tenha um arquivo `api.js` configurado para fazer chamadas à API
 import './productform.css'
 import { useNavigate } from 'react-router-dom';
+import VoltarButton from '../../components/VoltarButton';
 
 function ProductForm({ onProductAdded }) {
   const [formData, setFormData] = useState({
@@ -78,6 +79,7 @@ function ProductForm({ onProductAdded }) {
   return (
     <div className="product-form">
       <h2>Adicionar Novo Produto</h2>
+      <VoltarButton />
       <form onSubmit={handleSubmit}>
         <div>
           <label>Nome:</label>

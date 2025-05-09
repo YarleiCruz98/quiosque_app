@@ -12,9 +12,13 @@ function Home() {
   return (
     <div className="home">
       <h1>Seja bem-vindo ao Quiosque Areia Sereia!</h1>
-      <button onClick={() => handleNavigate("/products")}>
-        Ver Cardápio
-      </button>
+
+      <div className="menu">
+        <button onClick={() => handleNavigate("/products")}>Ver Cardápio</button>
+        <button onClick={() => handleNavigate("/products/criar")}>Cadastrar Produto</button>
+        <button onClick={() => handleNavigate("/comandas")}>Listar Comandas</button>
+        <button onClick={() => handleNavigate("/comandas/criar")}>Criar Comanda</button>
+      </div>
     </div>
   );
 }

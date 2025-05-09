@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import api from '../../services/api'; // Supondo que você tenha um arquivo `api.js` configurado para fazer chamadas à API
 import { useNavigate } from 'react-router-dom';
+import VoltarButton from '../../components/VoltarButton';
 
 
 function ProductTable() {
@@ -9,8 +10,13 @@ function ProductTable() {
 
   // Função para buscar a lista de produtos
   async function fetchProducts() {
-    const products = await api.get('/products');
-    setProducts(products.data);
+    try {
+      const response = await api.get('/products');
+      setProducts(response.data);
+    } catch (error) {
+      console.error('Erro ao buscar produtos:', error);
+      alert('Erro ao carregar a lista de produtos.');
+    }
   }
 
   useEffect(() => {
@@ -40,6 +46,7 @@ function ProductTable() {
   return (
     <div className="product-table">
       <h2>Lista do Cardápio</h2>
+      <VoltarButton />
       <table>
         <thead>
           <tr>

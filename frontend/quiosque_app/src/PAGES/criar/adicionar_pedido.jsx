@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../../services/api';
+import VoltarButton from '../../components/VoltarButton';
 
 function AdicionarPedido() {
   const { id: comandaId } = useParams(); // pega o ID da comanda da URL
@@ -37,6 +38,7 @@ function AdicionarPedido() {
   return (
     <div className="container">
       <h2>Adicionar Pedido - Comanda #{comandaId}</h2>
+      <VoltarButton />
       <table>
         <thead>
           <tr>

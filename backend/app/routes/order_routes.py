@@ -155,31 +155,24 @@ def listar_pedidos(comanda_id):
     if not comanda:
         return jsonify({'error': 'Comanda não encontrada'}), 404
 
-    comanda_produtos = ComandaProduto.query.filter_by(comanda_id=comanda_id).all()
-    if not comanda_produtos:
-        return jsonify({'message': 'Nenhum pedido associado a esta comanda'}), 200
-    
     pedidos_formatados = listar_produtos_da_comanda(comanda_id)
-    subtotal = calcular_subtotal_comanda(comanda_id)
-    if comanda.status == 'fechada':
-        resposta = {
+    subtotal_original = calcular_subtotal_comanda(comanda_id)
+    total_pago = comanda.total_pago or 0
+    restante = max(subtotal_original - total_pago, 0)
+
+    resposta = {
         f"comanda-{comanda.id}": {
             "mesa": comanda.mesa,
             "pedidos": pedidos_formatados,
-            "subtotal": subtotal,
+            "subtotal_original": subtotal_original,
+            "total_pago": total_pago,
+            "faltando_pagar": restante,
             "status": comanda.status,
-            }
         }
-        return jsonify(resposta), 201
-    elif comanda.status == 'aberta':
-        resposta = {
-        f"comanda-{comanda.id}": {
-            "mesa": comanda.mesa,
-            "pedidos": pedidos_formatados,
-            "status": comanda.status,
-            }
-        }
-        return jsonify(resposta), 201
+    }
+
+    return jsonify(resposta), 200
+
 
 @order_blueprint.route('/comandas/<int:comanda_id>/pedidos/<int:pedido_id>', methods=['DELETE'])
 def deletar_pedido(comanda_id, pedido_id):
@@ -192,3 +185,40 @@ def deletar_pedido(comanda_id, pedido_id):
 
     return jsonify({'message': 'Pedido deletado com sucesso'}), 200
 
+@order_blueprint.route('/comandas/<int:comanda_id>/pagar', methods=['POST'])
+def pagar_comanda(comanda_id):
+    comanda = Comanda.query.get(comanda_id)
+    if not comanda:
+        return jsonify({'error': 'Comanda não encontrada'}), 404
+
+    data = request.get_json()
+    valor_pago = data.get('valor_pago')
+
+    if valor_pago is None:
+        return jsonify({'error': 'Campo "valor_pago" é obrigatório'}), 400
+
+    try:
+        valor_pago = float(valor_pago)
+    except ValueError:
+        return jsonify({'error': 'Valor inválido para pagamento'}), 400
+
+    subtotal_original = calcular_subtotal_comanda(comanda_id)
+    comanda.total_pago = (comanda.total_pago or 0) + valor_pago
+    restante = max(subtotal_original - comanda.total_pago, 0)
+    troco = 0
+
+    if comanda.total_pago >= subtotal_original:
+        comanda.status = 'fechada'
+        troco = comanda.total_pago - subtotal_original
+
+    db.session.commit()
+
+    return jsonify({
+        'mensagem': 'Pagamento registrado',
+        'subtotal_original': subtotal_original,
+        'total_pago': comanda.total_pago,
+        'faltando_pagar': restante,
+        'valor_pago': valor_pago,
+        'troco': troco,
+        'status': comanda.status
+    }), 200

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import api from '../../services/api'; // Arquivo de configuração da API
 import { useNavigate } from 'react-router-dom';
 import './comandas.css'; // Estilos para a tabela de comandas
+import VoltarButton from '../../components/VoltarButton';
 
 function ComandaTable() {
   const [comandas, setComandas] = useState([]);
@@ -29,6 +30,7 @@ function ComandaTable() {
   return (
     <div className="comanda-table">
       <h2>Comandas Abertas</h2>
+      <VoltarButton />
       <table>
         <thead>
           <tr>

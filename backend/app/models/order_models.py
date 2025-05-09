@@ -6,6 +6,7 @@ class Comanda(db.Model):
     mesa = db.Column(db.Integer, nullable=False)
     data_abertura = db.Column(db.DateTime, nullable=False)
     status = db.Column(db.Enum('aberta', 'fechada', 'cancelada', name='status_enum'), default='aberta', nullable=False)
+    total_pago = db.Column(db.Float, default=0.0)
     
     def to_dict(self):
         return {
