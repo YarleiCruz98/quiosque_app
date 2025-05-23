@@ -1,6 +1,7 @@
 from app.config import db
 from app.models.order_models import Comanda
 from flask import jsonify
+from app.models.pagamento_models import Pagamento
 
 
 class ComandaProduto(db.Model):

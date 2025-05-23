@@ -2,6 +2,7 @@ from flask import request, jsonify, Blueprint
 from app.models.order_models import Comanda, ComandaNaoEncontrada, comanda_por_id, listar_comanda, criar_comandas
 from app.models.order_product_routes import ComandaProduto, ComandaProdutoNaoEncontrado, atualizar_pedido, listar_produtos_da_comanda, calcular_subtotal_comanda, fechar_comanda, cancelar_comanda
 from app.models.product_models import produto_por_id, ProdutoNaoEncontrado, Product, listar_produtos
+from app.models.pagamento_models import Pagamento
 from app.config import db
 
 order_blueprint = Blueprint('order_bp', __name__)
@@ -211,14 +212,19 @@ def pagar_comanda(comanda_id):
         comanda.status = 'fechada'
         troco = comanda.total_pago - subtotal_original
 
+    # Salva o pagamento e o troco
+    novo_pagamento = Pagamento(
+        comanda_id=comanda.id,
+        valor_pago=valor_pago,
+        troco=troco
+    )
+    db.session.add(novo_pagamento)
     db.session.commit()
 
     return jsonify({
-        'mensagem': 'Pagamento registrado',
-        'subtotal_original': subtotal_original,
-        'total_pago': comanda.total_pago,
-        'faltando_pagar': restante,
-        'valor_pago': valor_pago,
-        'troco': troco,
-        'status': comanda.status
+        "subtotal_original": subtotal_original,
+        "total_pago": comanda.total_pago,
+        "faltando_pagar": restante,
+        "troco": troco,
+        "status": comanda.status
     }), 200

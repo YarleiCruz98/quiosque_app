@@ -8,6 +8,9 @@ class Comanda(db.Model):
     status = db.Column(db.Enum('aberta', 'fechada', 'cancelada', name='status_enum'), default='aberta', nullable=False)
     total_pago = db.Column(db.Float, default=0.0)
     
+    pagamentos = db.relationship('Pagamento', backref='comanda', lazy=True)
+
+
     def to_dict(self):
         return {
             'id': self.id,
