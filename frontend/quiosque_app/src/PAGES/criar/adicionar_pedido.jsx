@@ -4,10 +4,12 @@ import api from '../../services/api';
 import VoltarButton from '../../components/VoltarButton';
 
 function AdicionarPedido() {
-  const { id: comandaId } = useParams(); // pega o ID da comanda da URL
+  const { id: comandaId } = useParams();
   const [produtos, setProdutos] = useState([]);
+  const [comanda, setComanda] = useState(null);
   const navigate = useNavigate();
 
+  // Buscar produtos
   useEffect(() => {
     async function fetchProdutos() {
       try {
@@ -21,14 +23,34 @@ function AdicionarPedido() {
     fetchProdutos();
   }, []);
 
+  // Buscar status da comanda
+  useEffect(() => {
+    async function fetchComanda() {
+      try {
+        const response = await api.get(`/comandas/${comandaId}`);
+        setComanda(response.data);
+      } catch (error) {
+        console.error('Erro ao buscar comanda:', error);
+      }
+    }
+
+    fetchComanda();
+  }, [comandaId]);
+
   const handleAdicionarProduto = async (produtoId) => {
     try {
+      if (comanda?.status === 'fechada') {
+        alert('Comanda fechada! Não é possível adicionar pedidos.');
+        return;
+      }
+
       await api.post(`/comandas/${comandaId}/pedidos`, {
         produto_id: produtoId,
         quantidade: 1
       });
+
       alert('Produto adicionado à comanda!');
-      navigate(`/comandas/${comandaId}/pedidos`); // redireciona de volta à comanda (se quiser)
+      navigate(`/comandas/${comandaId}/pedidos`);
     } catch (error) {
       console.error('Erro ao adicionar produto:', error);
       alert('Erro ao adicionar produto.');
@@ -39,6 +61,13 @@ function AdicionarPedido() {
     <div className="container">
       <h2>Adicionar Pedido - Comanda #{comandaId}</h2>
       <VoltarButton />
+
+      {comanda && comanda.status === 'fechada' && (
+        <p style={{ color: 'red', fontWeight: 'bold' }}>
+          Esta comanda está fechada. Não é possível adicionar produtos.
+        </p>
+      )}
+
       <table>
         <thead>
           <tr>
@@ -50,12 +79,13 @@ function AdicionarPedido() {
         <tbody>
           {produtos.length > 0 ? (
             produtos.map((produto) => (
-              <tr key={produto.id} onClick={() => handleAdicionarProduto(produto.id)} style={{ cursor: 'pointer' }}>
+              <tr
+                key={produto.id}
+                onClick={() => handleAdicionarProduto(produto.id)}
+                style={{ cursor: comanda?.status !== 'fechada' ? 'pointer' : 'not-allowed', opacity: comanda?.status === 'fechada' ? 0.6 : 1 }}
+              >
                 <td>{produto.name}</td>
-                <td>{produto.price.toLocaleString('pt-BR', {
-                  style: 'currency',
-                  currency: 'BRL',
-                })}</td>
+                <td>{produto.price.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' })}</td>
                 <td>{produto.stock}</td>
               </tr>
             ))

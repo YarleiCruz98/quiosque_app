@@ -9,6 +9,8 @@ import ComandaTable from './PAGES/Listar/comandas' // Importa o componente Coman
 import AdicionarPedido from './PAGES/criar/adicionar_pedido'
 import ComandaPedidos from './PAGES/Listar/pedidos_comanda' // Importa o componente PedidosComanda
 import ComandaForm from './PAGES/criar/criar_comanda' // Importa o componente ComandaForm
+import Pagamentos from './PAGES/Listar/pagamentos'
+
 function App() {
   return (
     <Router>
@@ -29,6 +31,8 @@ function App() {
         <Route path="/comandas/:comandaId/pedidos" element={<ComandaPedidos />} />
         {/* Rota para criar uma nova comanda */}
         <Route path="/comandas/criar" element={<ComandaForm />} />
+        {/* Rota para exibir os pagamentos de uma comanda específica */}
+        <Route path="/comandas/pagamentos" element={<Pagamentos />} />
       </Routes>
     </Router>
   );

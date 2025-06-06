@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Navigate } from 'react-router-dom';
 import api from '../../services/api';
 import './pedidos_comanda.css';
 import VoltarButton from '../../components/VoltarButton';
+
+
 
 function ComandaPedidos() {
   const { comandaId } = useParams();
@@ -14,6 +16,7 @@ function ComandaPedidos() {
   const [status, setStatus] = useState('');
   const [valorPago, setValorPago] = useState('');
   const [troco, setTroco] = useState(null);
+  const navigate = Navigate;
 
   useEffect(() => {
     async function fetchPedidos() {
@@ -50,6 +53,7 @@ function ComandaPedidos() {
       setTotalPago(response.data.total_pago);
 
       alert('Pagamento registrado com sucesso!');
+      navigate(`/comandas/${comandaId}/pedidos`); // Redireciona para a página de pedidos da comanda
     } catch (error) {
       console.error("Erro ao processar pagamento:", error);
       alert('Erro ao processar pagamento. Verifique o valor informado.');
@@ -81,14 +85,14 @@ function ComandaPedidos() {
 
   return (
     <div className="container">
-      <h2>Pedidos da Comanda #{comandaId}</h2>
-      <VoltarButton />
-      <p><strong>Mesa:</strong> {mesa}</p>
-      <p><strong>Status:</strong> {status}</p>
-      <p><strong>Subtotal original:</strong> R$ {subtotalOriginal.toFixed(2)}</p>
-      <p><strong>Total já pago:</strong> R$ {totalPago.toFixed(2)}</p>
-      <p><strong>Faltando pagar:</strong> R$ {subtotal.toFixed(2)}</p>
-
+  <h2>Pedidos da Comanda #{comandaId}</h2>
+  <VoltarButton />
+  <p><strong>Mesa:</strong> {mesa}</p>
+  <p><strong>Status:</strong> {status}</p>
+  <p><strong>Subtotal original:</strong> R$ {subtotalOriginal.toFixed(2)}</p>
+  <p><strong>Total pago:</strong> R$ {typeof totalPago === 'number' ? totalPago.toFixed(2) : '0,00'}</p>
+  <p><strong>Faltando pagar:</strong> R$ {subtotal.toFixed(2)}</p>
+      
       {status === 'aberta' && (
         <div style={{ marginTop: '20px', marginBottom: '20px' }}>
           <label htmlFor="valorPago"><strong>Valor Pago:</strong></label>

@@ -35,7 +35,9 @@ def criar_comandas(mesa, data_abertura):
 
 def listar_comanda():
     comanda = Comanda.query.all()
-    return [c.to_dict() for c in comanda]
+    print(comanda)
+    #return {'error': 'Comanda fechada'}, 400
+    return [c.to_dict() for c in comanda if c.status != 'fechada' and c.status != 'cancelada']
 
 def comanda_por_id(id_order):
     comanda = Comanda.query.get(id_order)

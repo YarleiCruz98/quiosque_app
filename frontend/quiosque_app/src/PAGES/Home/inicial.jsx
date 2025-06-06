@@ -18,6 +18,7 @@ function Home() {
         <button onClick={() => handleNavigate("/products/criar")}>Cadastrar Produto</button>
         <button onClick={() => handleNavigate("/comandas")}>Listar Comandas</button>
         <button onClick={() => handleNavigate("/comandas/criar")}>Criar Comanda</button>
+        <button onClick={() => handleNavigate("/comandas/pagamentos")}>Histórico de Pagamentos</button>
       </div>
     </div>
   );

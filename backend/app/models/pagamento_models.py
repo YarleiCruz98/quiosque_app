@@ -7,3 +7,12 @@ class Pagamento(db.Model):
     valor_pago = db.Column(db.Float, nullable=False)
     troco = db.Column(db.Float, nullable=False)
     data_pagamento = db.Column(db.DateTime, default=db.func.now())
+
+    def to_dict(self):
+        return {
+            'id': self.id,
+            'comanda_id': self.comanda_id,
+            'valor_pago': self.valor_pago,
+            'troco': self.troco,
+            'data_pagamento': self.data_pagamento.isoformat() if self.data_pagamento else None
+        }

@@ -221,10 +221,12 @@ def pagar_comanda(comanda_id):
     db.session.add(novo_pagamento)
     db.session.commit()
 
-    return jsonify({
-        "subtotal_original": subtotal_original,
-        "total_pago": comanda.total_pago,
-        "faltando_pagar": restante,
-        "troco": troco,
-        "status": comanda.status
-    }), 200
+    return jsonify(novo_pagamento.to_dict()), 200
+
+
+@order_blueprint.route('/comandas/hitorico/pagamento', methods=['GET'])
+def list_payments():
+    payments = Pagamento.query.all()
+    if not payments:
+        return jsonify({'message': 'Nenhum pagamento encontrado'}), 404
+    return jsonify([payment.to_dict() for payment in payments]), 200
